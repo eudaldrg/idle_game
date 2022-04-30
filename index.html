@@ -5,12 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/styles.css">
     <title>Cefises</title>
+
+    <style>
+        p.enemy_box
+        {
+            width: 150px;
+            color: red;
+            border-style: solid;
+            border-color: blue;
+        }
+    </style>
 </head>
 <body>
     <h1>Makis: <span id="widget-count">0</span></h1>
     <h1>Makis per second: <span id="widget-rate">0</span></h1>
+    <h1>Attack per second: <span id="dps">0</span></h1>
 
     <button id="produce-widget">Produce Maki</button>
+    <button id="increase-attack">Increase Attack</button>
 
     <h2>Store:</h2>
 
@@ -19,6 +31,19 @@
         <button id="luis1">Hire Peneman Garcia()</button>
         <button id="luis2">Hire Master of Dating Sims()</button>
         <button id="luis3">Hire Touchpad Sensei()</button>
+    </div>
+
+    <h2>Battle</h2>
+    <div class="enemies">
+        <div id="enemy_row">
+            <ul>
+                <p class="enemy_box" id="enemy_1" style="witdth:25%; border-width: 1px;">10</p>
+                <p class="enemy_box" id="enemy_2" style="witdth:25%; border-width: 1px;">10</p>
+                <p class="enemy_box" id="enemy_3" style="witdth:25%; border-width: 1px;">10</p>
+                <p class="enemy_box" id="enemy_4" style="witdth:25%; border-width: 1px;">10</p>
+                <p class="enemy_box" id="enemy_5" style="witdth:25%; border-width: 1px;">10</p>
+            </ul>
+        </div>
     </div>
 
     <h2>Coding exercises:</h2>

@@ -1,6 +1,7 @@
 // Basic variable declaration - keep track of how many of each
 // item we currently own, and how much the new ones should cost.
 var makis = 0;
+var attack = 0;
 var last_update = Date.now()
 
 var luises = []
@@ -30,6 +31,10 @@ function BuyLuis(luis_index) {
 $('#produce-widget').on('click', function () {
     makis++;
 });
+// Increase the attack of the player.
+$('#increase-attack').on('click', function () {
+    attack++;
+});
 
 $('#luis0').on('click', function () {
     BuyLuis(0);
@@ -44,7 +49,10 @@ $('#luis3').on('click', function () {
     BuyLuis(3);
 });
 
-function ScientificFormat(number) {
+function ScientificFormat(number)
+{
+    if (number < 0)
+        return "-" + ScientificFormat(-number);
     let power = Math.floor(Math.log10(number));
     let mantissa = number / Math.pow(10, power);
     if (power < 3)
@@ -53,12 +61,31 @@ function ScientificFormat(number) {
     return mantissa.toFixed(2) + "e" + power;
 }
 
+// The player attacks once per second. This is the time when its next attack should happen.
+var next_attack_time = Date.now();
+// Initialize the enemies values.
+var enemies = []
+for (let index = 0; index < 5; ++index)
+{
+    // Each enemy has a max_health 1.5 times that of the previous enemy.
+    let enemy =
+    {
+        max_health : 10 * (1.5 ** index),
+        health : 10 * (1.5 ** index),
+        alive : true
+    }
+    enemies.push(enemy);
+}
+
 function UpdateUI() {
     // Update the text showing how many widgets we have, using Math.floor() to round down
     $('#widget-count').text(Math.floor(makis));
 
     // Update the text showing the makis per second
     $('#widget-rate').text(ScientificFormat(Math.floor(makis_per_second)))
+
+    // Update the text showing the attack per second
+    $('#dps').text(ScientificFormat(Math.floor(attack)))
 
     // Update the widgeteers with their current prices
     $('#luis0').text('Hire Luis('+ ScientificFormat(luises[0].amount) +') - ' + ScientificFormat(luises[0].cost));
@@ -71,6 +98,13 @@ function UpdateUI() {
     $('#luis1').prop('disabled', luises[1].cost > makis);
     $('#luis2').prop('disabled', luises[2].cost > makis);
     $('#luis3').prop('disabled', luises[3].cost > makis);
+
+    // Update the enemy boxes with their current health.
+    $('#enemy_1').text(ScientificFormat(enemies[0].health) + " / " + ScientificFormat(enemies[0].max_health));
+    $('#enemy_2').text(ScientificFormat(enemies[1].health) + " / " + ScientificFormat(enemies[1].max_health));
+    $('#enemy_3').text(ScientificFormat(enemies[2].health) + " / " + ScientificFormat(enemies[2].max_health));
+    $('#enemy_4').text(ScientificFormat(enemies[3].health) + " / " + ScientificFormat(enemies[3].max_health));
+    $('#enemy_5').text(ScientificFormat(enemies[4].health) + " / " + ScientificFormat(enemies[4].max_health));
 }
 
 function MainLoop() {
@@ -86,8 +120,38 @@ function MainLoop() {
     }
     makis += makis_per_second * time_interval_in_seconds;
 
-    UpdateUI()
+    if (new_update >= next_attack_time)
+    {
+        next_attack_time += 1000; // We add one second.
 
+        // Iterate through the enemies to find the first alive one.
+        for (let i = 0; i < 5; ++i)
+        {
+            // Attack the first alive enemy.
+            if (enemies[i].alive == true)
+            {
+                enemies[i].health = Math.max(0, enemies[i].health - attack);
+                if (enemies[i].health <= 0)
+                    enemies[i].alive = false;
+                break;
+            }
+        }
+
+        // If all the enemies have been defeated, populate the battlefield with stronger ones.
+        if (!enemies[4].alive)
+        {
+            h = enemies[4].max_health
+            for (let i = 0; i < 5; ++i)
+            {
+                h *= 1.5;
+                enemies[i].max_health = h;
+                enemies[i].health = h;
+                enemies[i].alive = true;
+            }
+        }
+    }
+
+    UpdateUI()
 }
 
 // Run main loop update code every 50ms
