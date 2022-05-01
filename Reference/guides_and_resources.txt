@@ -1,0 +1,7 @@
+Basic guide with comparison between languages and several tutorials:
+https://www.reddit.com/r/incremental_games/wiki/build_a_game
+
+Tutorials on how to set up the functions for the game itself:
+https://blog.kongregate.com/the-math-of-idle-games-part-i/
+https://blog.kongregate.com/the-math-of-idle-games-part-ii/
+https://blog.kongregate.com/the-math-of-idle-games-part-iii/
