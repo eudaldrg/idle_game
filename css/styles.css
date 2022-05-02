@@ -1,0 +1,12 @@
+* {
+    font-family: 'Space Mono', monospace;
+}
+
+.enemy_box {
+    width: 150px;
+    color: red;
+    border-style: solid;
+    border-color: blue;
+    border-width: 1px;
+    width:25%;
+}

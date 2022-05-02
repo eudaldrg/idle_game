@@ -1,8 +1,10 @@
 // Basic variable declaration - keep track of how many of each
 // item we currently own, and how much the new ones should cost.
-var makis = 0;
+var makis = 500;
 var attack = 0;
 var last_update = Date.now()
+var hack_time_to_debug = 1;
+
 
 var luises = []
 for (let luis_index = 0; luis_index < 4; ++luis_index) {
@@ -27,6 +29,16 @@ function BuyLuis(luis_index) {
     luis.cost = Math.ceil(luis.cost * 1.1);
 }
 
+// Hacks to speedup development.
+$('#hacky_mult').on('input', function() {
+    hack_time_to_debug = this.value
+});
+
+// Handle changes in number formatting.
+$('#number_formatting').on('change', function() {
+    format_mode = new FormatMode(this.value);
+});
+
 // Increase numWidgets every time produce-widget is clicked
 $('#produce-widget').on('click', function () {
     makis++;
@@ -49,16 +61,20 @@ $('#luis3').on('click', function () {
     BuyLuis(3);
 });
 
-function ScientificFormat(number)
+class FormatMode {
+    static Standard = new FormatMode("standard")
+    static Scientific = new FormatMode("scientific")
+    static Engineering = new FormatMode("engineering")
+    static LongScale = new FormatMode("longscale")
+
+    constructor(name) {
+        this.name = name
+    }
+}
+var format_mode = FormatMode.Engineering;
+function FormatNumber(number)
 {
-    if (number < 0)
-        return "-" + ScientificFormat(-number);
-    let power = Math.floor(Math.log10(number));
-    let mantissa = number / Math.pow(10, power);
-    if (power < 3)
-        return number.toFixed(2);
-    
-    return mantissa.toFixed(2) + "e" + power;
+    return numberformat.formatShort(number, {format: format_mode.name})
 }
 
 // The player attacks once per second. This is the time when its next attack should happen.
@@ -79,19 +95,19 @@ for (let index = 0; index < 5; ++index)
 
 function UpdateUI() {
     // Update the text showing how many widgets we have, using Math.floor() to round down
-    $('#widget-count').text(Math.floor(makis));
+    $('#widget-count').text(FormatNumber(makis));
 
     // Update the text showing the makis per second
-    $('#widget-rate').text(ScientificFormat(Math.floor(makis_per_second)))
+    $('#widget-rate').text(FormatNumber(Math.floor(makis_per_second)))
 
     // Update the text showing the attack per second
-    $('#dps').text(ScientificFormat(Math.floor(attack)))
+    $('#dps').text(FormatNumber(Math.floor(attack)))
 
     // Update the widgeteers with their current prices
-    $('#luis0').text('Hire Luis('+ ScientificFormat(luises[0].amount) +') - ' + ScientificFormat(luises[0].cost));
-    $('#luis1').text('Hire Peneman Garcia('+ ScientificFormat(luises[1].amount) +') - ' + ScientificFormat(luises[1].cost));
-    $('#luis2').text('Hire Master of Dating Sims('+ ScientificFormat(luises[2].amount) +') - ' + ScientificFormat(luises[2].cost));
-    $('#luis3').text('Hire Touchpad Sensei('+ ScientificFormat(luises[3].amount) +') - ' + ScientificFormat(luises[3].cost));
+    $('#luis0').text('Hire Luis('+ FormatNumber(luises[0].amount) +') - ' + FormatNumber(luises[0].cost));
+    $('#luis1').text('Hire Peneman Garcia('+ FormatNumber(luises[1].amount) +') - ' + FormatNumber(luises[1].cost));
+    $('#luis2').text('Hire Master of Dating Sims('+ FormatNumber(luises[2].amount) +') - ' + FormatNumber(luises[2].cost));
+    $('#luis3').text('Hire Touchpad Sensei('+ FormatNumber(luises[3].amount) +') - ' + FormatNumber(luises[3].cost));
 
     // Enable/disable the widgeteer buttons based on our numWidgets
     $('#luis0').prop('disabled', luises[0].cost > makis);
@@ -100,16 +116,16 @@ function UpdateUI() {
     $('#luis3').prop('disabled', luises[3].cost > makis);
 
     // Update the enemy boxes with their current health.
-    $('#enemy_1').text(ScientificFormat(enemies[0].health) + " / " + ScientificFormat(enemies[0].max_health));
-    $('#enemy_2').text(ScientificFormat(enemies[1].health) + " / " + ScientificFormat(enemies[1].max_health));
-    $('#enemy_3').text(ScientificFormat(enemies[2].health) + " / " + ScientificFormat(enemies[2].max_health));
-    $('#enemy_4').text(ScientificFormat(enemies[3].health) + " / " + ScientificFormat(enemies[3].max_health));
-    $('#enemy_5').text(ScientificFormat(enemies[4].health) + " / " + ScientificFormat(enemies[4].max_health));
+    $('#enemy_1').text(FormatNumber(enemies[0].health) + " / " + FormatNumber(enemies[0].max_health));
+    $('#enemy_2').text(FormatNumber(enemies[1].health) + " / " + FormatNumber(enemies[1].max_health));
+    $('#enemy_3').text(FormatNumber(enemies[2].health) + " / " + FormatNumber(enemies[2].max_health));
+    $('#enemy_4').text(FormatNumber(enemies[3].health) + " / " + FormatNumber(enemies[3].max_health));
+    $('#enemy_5').text(FormatNumber(enemies[4].health) + " / " + FormatNumber(enemies[4].max_health));
 }
 
 function MainLoop() {
     new_update = Date.now();
-    var time_interval_in_seconds = (new_update - last_update) / 1000;
+    var time_interval_in_seconds = (new_update - last_update) / 1000 * hack_time_to_debug;
     last_update = new_update;
 
     makis_per_second = luises[0].amount * luises[0].mult;

@@ -1,7 +1,16 @@
 Basic guide with comparison between languages and several tutorials:
 https://www.reddit.com/r/incremental_games/wiki/build_a_game
 
+Flexbox tutorial (a library to simplify the css part of the game):
+https://flexboxfroggy.com/
+
+Youtube "So you want to make an incremental" tutorial:
+https://www.youtube.com/c/Hevipelle/videos (there's no playlist but the guy has few videos)
+
 Tutorials on how to set up the functions for the game itself:
 https://blog.kongregate.com/the-math-of-idle-games-part-i/
 https://blog.kongregate.com/the-math-of-idle-games-part-ii/
 https://blog.kongregate.com/the-math-of-idle-games-part-iii/
+
+Tips when migrating to android:
+https://www.adjust.com/blog/how-to-make-an-idle-game/
