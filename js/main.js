@@ -123,6 +123,50 @@ function UpdateUI() {
     $('#enemy_5').text(FormatNumber(enemies[4].health) + " / " + FormatNumber(enemies[4].max_health));
 }
 
+function SaveGame()
+{
+    var save_game = {
+        current_makis: makis,
+        current_attack: attack,
+        current_luises: luises,
+        current_enemies: enemies,
+        current_next_attack_time: next_attack_time
+    }
+
+    localStorage.setItem("save", JSON.stringify(save_game))
+}
+
+function LoadGame()
+{
+    var save_game = JSON.parse(localStorage.getItem("save"));
+
+    if (typeof save_game.current_makis !== "undefined")
+        makis = save_game.current_makis;
+    if (typeof save_game.current_attack !== "undefined")
+        attack = save_game.current_attack;
+    if (typeof save_game.current_luises !== "undefined")
+        luises = save_game.current_luises;
+    if (typeof save_game.current_enemies !== "undefined")
+        enemies = save_game.current_enemies;
+    if (typeof save_game.current_next_attack_time !== "undefined")
+        next_attack_time = save_game.current_next_attack_time;
+}
+
+// Handle changes in number formatting.
+$('#save_button').on('click', function() {
+    SaveGame();
+});
+
+// Handle changes in number formatting.
+$('#load_button').on('click', function() {
+    LoadGame();
+});
+
+// Handle changes in number formatting.
+$('#reset_load_button').on('click', function() {
+    localStorage.removeItem("save");
+});
+
 function MainLoop() {
     new_update = Date.now();
     var time_interval_in_seconds = (new_update - last_update) / 1000 * hack_time_to_debug;
