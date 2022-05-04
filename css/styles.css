@@ -2,11 +2,19 @@
     font-family: 'Space Mono', monospace;
 }
 
+.grid-container {
+    display: grid;
+    grid-template-columns: 19% 19% 19% 19% 19%;
+    background-color: gray;
+    padding: 10px;
+    gap: 10px;
+}
+
 .enemy_box {
-    width: 150px;
-    color: red;
+    width: 100%;
+    text-align: center;
     border-style: solid;
     border-color: blue;
     border-width: 1px;
-    width:25%;
+    background-color: white;
 }

@@ -116,11 +116,12 @@ function UpdateUI() {
     $('#luis3').prop('disabled', luises[3].cost > makis);
 
     // Update the enemy boxes with their current health.
-    $('#enemy_1').text(FormatNumber(enemies[0].health) + " / " + FormatNumber(enemies[0].max_health));
-    $('#enemy_2').text(FormatNumber(enemies[1].health) + " / " + FormatNumber(enemies[1].max_health));
-    $('#enemy_3').text(FormatNumber(enemies[2].health) + " / " + FormatNumber(enemies[2].max_health));
-    $('#enemy_4').text(FormatNumber(enemies[3].health) + " / " + FormatNumber(enemies[3].max_health));
-    $('#enemy_5').text(FormatNumber(enemies[4].health) + " / " + FormatNumber(enemies[4].max_health));
+    for (let enemy_index = 0; enemy_index < 5; ++enemy_index)
+    {
+        enemy_string = '#enemy_' + (enemy_index + 1)
+        $(enemy_string).text(FormatNumber(enemies[enemy_index].health) + " / " + FormatNumber(enemies[enemy_index].max_health));
+        $(enemy_string).css('background-color', enemies[enemy_index].alive == true ? 'lightgreen' : '#ff6666');
+    }
 }
 
 function SaveGame()
