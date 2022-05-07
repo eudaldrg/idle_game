@@ -80,14 +80,15 @@ function FormatNumber(number)
 // The player attacks once per second. This is the time when its next attack should happen.
 var next_attack_time = Date.now();
 // Initialize the enemies values.
-var enemies = []
+var enemies = [];
+var zone = 1;
 for (let index = 0; index < 5; ++index)
 {
     // Each enemy has a max_health 1.5 times that of the previous enemy.
     let enemy =
     {
-        max_health : 10 * (1.5 ** index),
-        health : 10 * (1.5 ** index),
+        max_health : 10 * (1.1 ** index),
+        health : 10 * (1.1 ** index),
         alive : true
     }
     enemies.push(enemy);
@@ -115,6 +116,7 @@ function UpdateUI() {
     $('#luis2').prop('disabled', luises[2].cost > makis);
     $('#luis3').prop('disabled', luises[3].cost > makis);
 
+    $('#zone').text('Zone ' + zone);
     // Update the enemy boxes with their current health.
     for (let enemy_index = 0; enemy_index < 5; ++enemy_index)
     {
@@ -131,7 +133,8 @@ function SaveGame()
         current_attack: attack,
         current_luises: luises,
         current_enemies: enemies,
-        current_next_attack_time: next_attack_time
+        current_next_attack_time: next_attack_time,
+        current_zone: zone
     }
 
     localStorage.setItem("save", JSON.stringify(save_game))
@@ -151,19 +154,21 @@ function LoadGame()
         enemies = save_game.current_enemies;
     if (typeof save_game.current_next_attack_time !== "undefined")
         next_attack_time = save_game.current_next_attack_time;
+    if (typeof save_game.current_zone !== "undefined")
+        zone = save_game.current_zone;
 }
 
-// Handle changes in number formatting.
+// Handle saving the state.
 $('#save_button').on('click', function() {
     SaveGame();
 });
 
-// Handle changes in number formatting.
+// Handle loading a save file.
 $('#load_button').on('click', function() {
     LoadGame();
 });
 
-// Handle changes in number formatting.
+// Handle reseting the saved state.
 $('#reset_load_button').on('click', function() {
     localStorage.removeItem("save");
 });
@@ -201,10 +206,11 @@ function MainLoop() {
         // If all the enemies have been defeated, populate the battlefield with stronger ones.
         if (!enemies[4].alive)
         {
+            ++zone;
             h = enemies[4].max_health
             for (let i = 0; i < 5; ++i)
             {
-                h *= 1.5;
+                h *= 1.1;
                 enemies[i].max_health = h;
                 enemies[i].health = h;
                 enemies[i].alive = true;
