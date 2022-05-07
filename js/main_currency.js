@@ -45,3 +45,19 @@ function UpdateCurrency(time_since_last_update_in_seconds)
     }
     makis += makis_per_second * time_since_last_update_in_seconds;
 }
+
+// Updates the display of the currency related objects.
+function UpdateCurrencyUI()
+{
+    // Update the widgeteers with their current prices
+    $('#luis0').text('Hire Luis('+ FormatNumber(luises[0].amount) +') - ' + FormatNumber(luises[0].cost));
+    $('#luis1').text('Hire Peneman Garcia('+ FormatNumber(luises[1].amount) +') - ' + FormatNumber(luises[1].cost));
+    $('#luis2').text('Hire Master of Dating Sims('+ FormatNumber(luises[2].amount) +') - ' + FormatNumber(luises[2].cost));
+    $('#luis3').text('Hire Touchpad Sensei('+ FormatNumber(luises[3].amount) +') - ' + FormatNumber(luises[3].cost));
+
+    // Enable/disable the widgeteer buttons based on our numWidgets
+    $('#luis0').prop('disabled', luises[0].cost > makis);
+    $('#luis1').prop('disabled', luises[1].cost > makis);
+    $('#luis2').prop('disabled', luises[2].cost > makis);
+    $('#luis3').prop('disabled', luises[3].cost > makis);
+}

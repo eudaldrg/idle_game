@@ -50,6 +50,20 @@ function UpdateBattle(new_update_time)
                 enemies[i].health = h;
                 enemies[i].alive = true;
             }
+            CheckProgressAchievement(zone);
         }
+    }
+}
+
+// Updates the display of the battle related objects.
+function UpdateBattleUI()
+{
+    $('#zone').text('Zone ' + zone);
+    // Update the enemy boxes with their current health.
+    for (let enemy_index = 0; enemy_index < 5; ++enemy_index)
+    {
+        enemy_string = '#enemy_' + (enemy_index + 1)
+        $(enemy_string).text(FormatNumber(enemies[enemy_index].health) + " / " + FormatNumber(enemies[enemy_index].max_health));
+        $(enemy_string).css('background-color', enemies[enemy_index].alive == true ? 'lightgreen' : '#ff6666');
     }
 }

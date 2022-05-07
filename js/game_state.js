@@ -8,7 +8,8 @@ function SaveGame()
         current_luises: luises,
         current_enemies: enemies,
         current_next_attack_time: next_attack_time,
-        current_zone: zone
+        current_zone: zone,
+        current_achievements: achievements
     }
 
     localStorage.setItem("save", JSON.stringify(save_game))
@@ -31,6 +32,8 @@ function LoadGame()
         next_attack_time = save_game.current_next_attack_time;
     if (typeof save_game.current_zone !== "undefined")
         zone = save_game.current_zone;
+    if (typeof save_game.current_achievements !== "undefined")
+        achievements = save_game.current_achievements;
 }
 
 // Handle saving the state.

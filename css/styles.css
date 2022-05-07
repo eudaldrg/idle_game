@@ -18,3 +18,23 @@
     border-width: 1px;
     background-color: white;
 }
+
+#AchievementTab {
+    background-color: aqua;
+    width: 100vw;
+    height: 100vh;
+    text-align: center;
+}
+
+.AchievementGrid {
+    display: grid;
+    grid-template-columns: 19% 19% 19% 19% 19%;
+    padding: 10px;
+    gap: 10px;
+}
+
+.AchievementBox {
+    text-align: center;
+    border-style: solid;
+    background-color: lightgray;
+}

@@ -10,82 +10,98 @@
     <title>Cefises</title>
 </head>
 <body>
-    
-    <h2>Debugging:</h2>
-
-    <form action="/url" method="GET">
-        <p>Multiply the time step by (don't press enter, it breaks the universe for some reason):</p>
-        <input id="hacky_mult" type="number", placeholder=1>
-    </form>
-    
-    <div class="save_buttons">
-        <button id="save_button">Save</button>
-        <button id="load_button">Load</button>
-        <button id="reset_load_button">ResetLoad</button>
-    </div>
-
-    <h2>Settings:</h2>
-    <label for="dog-names">Number Format:</label>
-    <select id="number_formatting" name="dog-names" id="dog-names">
-        <option value="scientific">Scientific<button>
-        <option value="standard">Standard<button>
-        <option value="engineering">Engineering<button>
-    </select>
-
-    <h2>Stats:</h2>
-    <h3>Makis: <span id="widget-count">0</span></h3>
-    <h3>Makis per second: <span id="widget-rate">0</span></h3>
-    <h3>Attack per second: <span id="dps">0</span></h3>
-
-    <button id="produce-widget">Produce Maki</button>
-    <button id="increase-attack">Increase Attack</button>
-
-    <h2>Store:</h2>
-
-    <div class="luises">
-        <button id="luis0">Hire Luis(0)</button>
-        <button id="luis1">Hire Peneman Garcia()</button>
-        <button id="luis2">Hire Master of Dating Sims()</button>
-        <button id="luis3">Hire Touchpad Sensei()</button>
-    </div>
-
-    <h2>Upgrades: TODO:</h2>
-
-    <div class="eudalds">
-        <button id="eudald0">Upgrade1</button>
-        <button id="eudald1">Upgrade2</button>
-        <button id="eudald2">Upgrade3</button>
-        <button id="eudald3">Upgrade4</button>
-    </div>
-
-    <h2>Battle:</h2>
-    
-    <div class="enemies">
-        <p id="zone">0</p>
-        <div class="grid-container" id="enemy_row">
-            <div class="enemy_box" id="enemy_1">10</div>
-            <div class="enemy_box" id="enemy_2">10</div>
-            <div class="enemy_box" id="enemy_3">10</div>
-            <div class="enemy_box" id="enemy_4">10</div>
-            <div class="enemy_box" id="enemy_5">10</div>
+    <div id="AchievementTab" style="display: none;">
+        <h1>Achievements</h1> 
+        <button id="BackFromAchievementsTab">Back to main window</button>
+        <div class="AchievementGrid" id="AchievementList">
+            <div class="AchievementBox" id="10BattleZoneAchievement">10BZ</div>
+            <div class="AchievementBox" id="50BattleZoneAchievement">50BZ</div>
+            <div class="AchievementBox" id="100BattleZoneAchievement">100BZ</div>
         </div>
     </div>
+    <div id="MainTab">
+        <h2>Debugging:</h2>
+    
+        <form action="/url" method="GET">
+            <p>Multiply the time step by (don't press enter, it breaks the universe for some reason):</p>
+            <input id="hacky_mult" type="number", placeholder=1>
+        </form>
+        
+        <div class="save_buttons">
+            <button id="save_button">Save</button>
+            <button id="load_button">Load</button>
+            <button id="reset_load_button">ResetLoad</button>
+        </div>
 
-    <!--h2>Coding exercises:</h2>
-
-    <ul>
-        <li>Change the starting costs and see how it affects the game</li>
-        <li>Add stats near the top showing widgets per second and the number of widgeteers of each type</li>
-        <li>Add an upgrades section</li>
-        <li>Add save/load buttons that use localStorage.setItem() and localStorage.getItem()</li>
-        <li>Check the Bootstrap 3 checkbox in the upper left and change the &lt;button&gt; elements to use &lt;div class="btn btn-primary"&gt; instead</li>
-    </ul-->
+        <h2>Tabs:</h2>
+        <div class="Tab buttons:">
+            <button id="GoToAchievementsButton">Achievements</button>
+        </div>
+    
+        <h2>Settings:</h2>
+        <label for="dog-names">Number Format:</label>
+        <select id="number_formatting" name="dog-names" id="dog-names">
+            <option value="scientific">Scientific<button>
+            <option value="standard">Standard<button>
+            <option value="engineering">Engineering<button>
+        </select>
+    
+        <h2>Stats:</h2>
+        <h3>Makis: <span id="widget-count">0</span></h3>
+        <h3>Makis per second: <span id="widget-rate">0</span></h3>
+        <h3>Attack per second: <span id="dps">0</span></h3>
+    
+        <button id="produce-widget">Produce Maki</button>
+        <button id="increase-attack">Increase Attack</button>
+    
+        <h2>Store:</h2>
+    
+        <div class="luises">
+            <button id="luis0">Hire Luis(0)</button>
+            <button id="luis1">Hire Peneman Garcia()</button>
+            <button id="luis2">Hire Master of Dating Sims()</button>
+            <button id="luis3">Hire Touchpad Sensei()</button>
+        </div>
+    
+        <h2>Upgrades: TODO:</h2>
+    
+        <div class="eudalds">
+            <button id="eudald0">Upgrade1</button>
+            <button id="eudald1">Upgrade2</button>
+            <button id="eudald2">Upgrade3</button>
+            <button id="eudald3">Upgrade4</button>
+        </div>
+    
+        <h2>Battle:</h2>
+        
+        <div class="enemies">
+            <p id="zone">0</p>
+            <div class="grid-container" id="enemy_row">
+                <div class="enemy_box" id="enemy_1">10</div>
+                <div class="enemy_box" id="enemy_2">10</div>
+                <div class="enemy_box" id="enemy_3">10</div>
+                <div class="enemy_box" id="enemy_4">10</div>
+                <div class="enemy_box" id="enemy_5">10</div>
+            </div>
+        </div>
+    
+        <!--h2>Coding exercises:</h2>
+    
+        <ul>
+            <li>Change the starting costs and see how it affects the game</li>
+            <li>Add stats near the top showing widgets per second and the number of widgeteers of each type</li>
+            <li>Add an upgrades section</li>
+            <li>Add save/load buttons that use localStorage.setItem() and localStorage.getItem()</li>
+            <li>Check the Bootstrap 3 checkbox in the upper left and change the &lt;button&gt; elements to use &lt;div class="btn btn-primary"&gt; instead</li>
+        </ul-->
+    </div>
 </body>
 
 <script src="https://cdn.rawgit.com/erosson/swarm-numberformat/v0.4.0/dist/swarm-numberformat.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
 <!-- Internal code includes. -->
+<script src="js/achievements.js"></script>
 <script src="js/battle.js"></script>
 <script src="js/game_state.js"></script>
 <script src="js/main_currency.js"></script>
