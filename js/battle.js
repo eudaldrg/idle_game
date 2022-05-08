@@ -17,6 +17,44 @@ for (let index = 0; index < 5; ++index)
     enemies.push(enemy);
 }
 
+// Initialize the minions values.
+var minions = 
+{
+    normal_minion:
+    {
+        attack_per_second: 1,
+        base_cost: 10,
+        current_cost: 10,
+        quantity_purchased: 0
+    },
+    super_minion:
+    {
+        attack_per_second: 10,
+        base_cost: 1000,
+        current_cost: 1000,
+        quantity_purchased: 0
+    },
+    mega_minion:
+    {
+        attack_per_second: 100,
+        base_cost: 1000000,
+        current_cost: 1000000,
+        quantity_purchased: 0
+    }
+}
+
+function BuyMinion(minion_to_buy)
+{
+    minion_to_buy.quantity_purchased++;
+    makis -= minion_to_buy.current_cost;
+    minion_to_buy.current_cost = Math.ceil(minion_to_buy.current_cost * 1.05);
+    attack += minion_to_buy.attack_per_second;
+}
+
+// Add the buttons' actions to buy generators.
+$('#buy_normal_minion').on('click', function () { BuyMinion(minions.normal_minion); });
+$('#buy_super_minion').on('click', function () { BuyMinion(minions.super_minion); });
+$('#buy_mega_minion').on('click', function () { BuyMinion(minions.mega_minion); });
 
 // Main function to update the battlefield.
 function UpdateBattle(new_update_time)
@@ -58,6 +96,15 @@ function UpdateBattle(new_update_time)
 // Updates the display of the battle related objects.
 function UpdateBattleUI()
 {
+    // Update the buttons to buy minions.
+    $('#buy_normal_minion').text('Buy Minion ('+ FormatNumber(minions.normal_minion.quantity_purchased) +') - ' + FormatNumber(minions.normal_minion.current_cost));
+    $('#buy_super_minion').text('Buy Super Minion ('+ FormatNumber(minions.super_minion.quantity_purchased) +') - ' + FormatNumber(minions.super_minion.current_cost));
+    $('#buy_mega_minion').text('Buy Mega Minion ('+ FormatNumber(minions.mega_minion.quantity_purchased) +') - ' + FormatNumber(minions.mega_minion.current_cost));
+
+    $('#buy_normal_minion').prop('disabled', minions.normal_minion.current_cost > makis);
+    $('#buy_super_minion').prop('disabled', minions.super_minion.current_cost > makis);
+    $('#buy_mega_minion').prop('disabled', minions.mega_minion.current_cost > makis);
+
     $('#zone').text('Zone ' + zone);
     // Update the enemy boxes with their current health.
     for (let enemy_index = 0; enemy_index < 5; ++enemy_index)
