@@ -1,4 +1,7 @@
 
+// Battle constants.
+var health_growth_ratio = 1.1;
+
 // The player attacks once per second. This is the time when its next attack should happen.
 var next_attack_time = Date.now();
 
@@ -10,8 +13,8 @@ for (let index = 0; index < 5; ++index)
     // Each enemy has a max_health 1.5 times that of the previous enemy.
     let enemy =
     {
-        max_health : 10 * (1.1 ** index),
-        health : 10 * (1.1 ** index),
+        max_health : Math.ceil(10 * (health_growth_ratio ** index)),
+        health : Math.ceil(10 * (health_growth_ratio ** index)),
         alive : true
     }
     enemies.push(enemy);
@@ -83,7 +86,7 @@ function UpdateBattle(new_update_time)
             h = enemies[4].max_health
             for (let i = 0; i < 5; ++i)
             {
-                h *= 1.1;
+                h = Math.ceil(h * health_growth_ratio);
                 enemies[i].max_health = h;
                 enemies[i].health = h;
                 enemies[i].alive = true;
