@@ -43,6 +43,20 @@ var minions =
         base_cost: 1000000,
         current_cost: 1000000,
         quantity_purchased: 0
+    },
+    giga_minion:
+    {
+        attack_per_second: 1000,
+        base_cost: 1e9,
+        current_cost: 1e9,
+        quantity_purchased: 0
+    },
+    tera_minion:
+    {
+        attack_per_second: 10000,
+        base_cost: 1e12,
+        current_cost: 1e12,
+        quantity_purchased: 0
     }
 }
 
@@ -58,6 +72,8 @@ function BuyMinion(minion_to_buy)
 $('#buy_normal_minion').on('click', function () { BuyMinion(minions.normal_minion); });
 $('#buy_super_minion').on('click', function () { BuyMinion(minions.super_minion); });
 $('#buy_mega_minion').on('click', function () { BuyMinion(minions.mega_minion); });
+$('#buy_giga_minion').on('click', function () { BuyMinion(minions.giga_minion); });
+$('#buy_tera_minion').on('click', function () { BuyMinion(minions.tera_minion); });
 
 // Main function to update the battlefield.
 function UpdateBattle(new_update_time)
@@ -103,10 +119,14 @@ function UpdateBattleUI()
     $('#buy_normal_minion').text('Buy Minion ('+ FormatNumber(minions.normal_minion.quantity_purchased) +') - ' + FormatNumber(minions.normal_minion.current_cost));
     $('#buy_super_minion').text('Buy Super Minion ('+ FormatNumber(minions.super_minion.quantity_purchased) +') - ' + FormatNumber(minions.super_minion.current_cost));
     $('#buy_mega_minion').text('Buy Mega Minion ('+ FormatNumber(minions.mega_minion.quantity_purchased) +') - ' + FormatNumber(minions.mega_minion.current_cost));
+    $('#buy_giga_minion').text('Buy Giga Minion ('+ FormatNumber(minions.giga_minion.quantity_purchased) +') - ' + FormatNumber(minions.giga_minion.current_cost));
+    $('#buy_tera_minion').text('Buy Tera Minion ('+ FormatNumber(minions.tera_minion.quantity_purchased) +') - ' + FormatNumber(minions.tera_minion.current_cost));
 
     $('#buy_normal_minion').prop('disabled', minions.normal_minion.current_cost > makis);
     $('#buy_super_minion').prop('disabled', minions.super_minion.current_cost > makis);
     $('#buy_mega_minion').prop('disabled', minions.mega_minion.current_cost > makis);
+    $('#buy_giga_minion').prop('disabled', minions.giga_minion.current_cost > makis);
+    $('#buy_tera_minion').prop('disabled', minions.tera_minion.current_cost > makis);
 
     $('#zone').text('Zone ' + zone);
     // Update the enemy boxes with their current health.
