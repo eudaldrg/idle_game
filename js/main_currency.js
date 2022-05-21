@@ -1,4 +1,7 @@
 
+// Currency constants.
+const generator_cost_ratio = 1.1;
+
 // Initialize the different generators.
 var luises = []
 for (let luis_index = 0; luis_index < 4; ++luis_index)
@@ -12,19 +15,30 @@ for (let luis_index = 0; luis_index < 4; ++luis_index)
     luises.push(luis);
 }
 
-// Function that buys a generator of index luis_index.
+// Function that buys as many generators of index luis_index as specified by the store multiplier.
 function BuyLuis(luis_index)
 {
     let luis = luises[luis_index];
 
-    // First we pay for it.
-    makis -= luis.cost;
+    // If we are buying a fixed quantity, restrict to the amount bought. Otherwise, buy MAX.
+    var quantity_to_buy = 0;
+    if (current_store_multiplier.constant_quantity)
+        quantity_to_buy = current_store_multiplier.value;
+        
+    var quantity_bought = 0;
+    while (makis >= luis.cost && (quantity_to_buy == 0 || quantity_to_buy > quantity_bought))
+    {
+        // First we pay for it.
+        makis -= luis.cost;
+    
+        // Then we increase the counter
+        ++luis.amount;
+    
+        // Increase cost for the next one, using Math.ceil() to round up
+        luis.cost = Math.ceil(luis.cost * generator_cost_ratio);
 
-    // Then we increase the counter
-    ++luis.amount;
-
-    // Increase cost for the next one, using Math.ceil() to round up
-    luis.cost = Math.ceil(luis.cost * 1.1);
+        ++quantity_bought;
+    }
 }
 
 // Add the buttons' actions to buy generators.
@@ -56,8 +70,8 @@ function UpdateCurrencyUI()
     $('#luis3').text('Hire Touchpad Sensei('+ FormatNumber(luises[3].amount) +') - ' + FormatNumber(luises[3].cost));
 
     // Enable/disable the widgeteer buttons based on our numWidgets
-    $('#luis0').prop('disabled', luises[0].cost > makis);
-    $('#luis1').prop('disabled', luises[1].cost > makis);
-    $('#luis2').prop('disabled', luises[2].cost > makis);
-    $('#luis3').prop('disabled', luises[3].cost > makis);
+    $('#luis0').prop('disabled', !CanAfford(makis, luises[0].cost, generator_cost_ratio));
+    $('#luis1').prop('disabled', !CanAfford(makis, luises[1].cost, generator_cost_ratio));
+    $('#luis2').prop('disabled', !CanAfford(makis, luises[2].cost, generator_cost_ratio));
+    $('#luis3').prop('disabled', !CanAfford(makis, luises[3].cost, generator_cost_ratio));
 }

@@ -25,7 +25,6 @@ $('#increase-attack').on('click', function () {
 });
 
 
-
 // Tab buttons:
 function ToggleAchievementWindows(achievements_open)
 {
@@ -65,6 +64,7 @@ function UpdateUI()
     $('#dps').text(FormatNumber(Math.floor(attack)));
 
     UpdateCurrencyUI();
+    UpdateBuyingMultUI();
     UpdateBattleUI();
     UpdateAchievementUI();
 }

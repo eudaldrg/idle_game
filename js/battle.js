@@ -1,6 +1,7 @@
 
 // Battle constants.
-var health_growth_ratio = 1.1;
+const health_growth_ratio = 1.1;
+const minions_cost_growth_ratio = 1.05;
 
 // The player attacks once per second. This is the time when its next attack should happen.
 var next_attack_time = Date.now();
@@ -60,12 +61,25 @@ var minions =
     }
 }
 
+/// Function that purchases as many minions as the store multiplier indicates.
+/// @pre: We can afford as many minions as the multiplier specifies.
 function BuyMinion(minion_to_buy)
 {
-    minion_to_buy.quantity_purchased++;
-    makis -= minion_to_buy.current_cost;
-    minion_to_buy.current_cost = Math.ceil(minion_to_buy.current_cost * 1.05);
-    attack += minion_to_buy.attack_per_second;
+    // If we are buying a fixed quantity, restrict to the amount bought. Otherwise, buy MAX.
+    var quantity_to_buy = 0;
+    if (current_store_multiplier.constant_quantity)
+        quantity_to_buy = current_store_multiplier.value;
+
+    var quantity_bought = 0;
+    while (makis >= minion_to_buy.current_cost && (quantity_to_buy == 0 || quantity_to_buy > quantity_bought))
+    {
+        minion_to_buy.quantity_purchased++;
+        makis -= minion_to_buy.current_cost;
+        minion_to_buy.current_cost = Math.ceil(minion_to_buy.current_cost * minions_cost_growth_ratio);
+        attack += minion_to_buy.attack_per_second;
+
+        ++quantity_bought;
+    }
 }
 
 // Add the buttons' actions to buy generators.
@@ -122,11 +136,11 @@ function UpdateBattleUI()
     $('#buy_giga_minion').text('Buy Giga Minion ('+ FormatNumber(minions.giga_minion.quantity_purchased) +') - ' + FormatNumber(minions.giga_minion.current_cost));
     $('#buy_tera_minion').text('Buy Tera Minion ('+ FormatNumber(minions.tera_minion.quantity_purchased) +') - ' + FormatNumber(minions.tera_minion.current_cost));
 
-    $('#buy_normal_minion').prop('disabled', minions.normal_minion.current_cost > makis);
-    $('#buy_super_minion').prop('disabled', minions.super_minion.current_cost > makis);
-    $('#buy_mega_minion').prop('disabled', minions.mega_minion.current_cost > makis);
-    $('#buy_giga_minion').prop('disabled', minions.giga_minion.current_cost > makis);
-    $('#buy_tera_minion').prop('disabled', minions.tera_minion.current_cost > makis);
+    $('#buy_normal_minion').prop('disabled', !CanAfford(makis, minions.normal_minion.current_cost, minions_cost_growth_ratio));
+    $('#buy_super_minion').prop('disabled', !CanAfford(makis, minions.super_minion.current_cost, minions_cost_growth_ratio));
+    $('#buy_mega_minion').prop('disabled', !CanAfford(makis, minions.mega_minion.current_cost, minions_cost_growth_ratio));
+    $('#buy_giga_minion').prop('disabled', !CanAfford(makis, minions.giga_minion.current_cost, minions_cost_growth_ratio));
+    $('#buy_tera_minion').prop('disabled', !CanAfford(makis, minions.tera_minion.current_cost, minions_cost_growth_ratio));
 
     $('#zone').text('Zone ' + zone);
     // Update the enemy boxes with their current health.
