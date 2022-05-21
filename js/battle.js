@@ -16,9 +16,37 @@ for (let index = 0; index < 5; ++index)
     {
         max_health : Math.ceil(10 * (health_growth_ratio ** index)),
         health : Math.ceil(10 * (health_growth_ratio ** index)),
-        alive : true
+        alive : true,
+        rubies : 0
     }
     enemies.push(enemy);
+}
+
+// Function that updates the battleground for a new zone full of enemies.
+function GenerateNewZone()
+{
+    ++zone;
+    h = enemies[4].max_health
+    for (let i = 0; i < 5; ++i)
+    {
+        h = Math.ceil(h * health_growth_ratio);
+        enemies[i].max_health = h;
+        enemies[i].health = h;
+        enemies[i].alive = true;
+        enemies[i].rubies = 0;
+    }
+
+    // From zone 10 up, rubies start generating randomly in the universe.
+    if (zone >= 10)
+    {
+        for (let i = 0; i < 5; ++i)
+        {
+            // With probability 1/5, an enemy will hold a number of rubies randomly between [0, zone)
+            if (Math.random() < 0.2)
+                enemies[i].rubies = Math.floor(zone * Math.random());
+        }
+    }
+    CheckProgressAchievement(zone);
 }
 
 // Initialize the minions values.
@@ -104,25 +132,17 @@ function UpdateBattle(new_update_time)
             {
                 enemies[i].health = Math.max(0, enemies[i].health - attack);
                 if (enemies[i].health <= 0)
+                {
                     enemies[i].alive = false;
+                    rubies += enemies[i].rubies;
+                }
                 break;
             }
         }
 
         // If all the enemies have been defeated, populate the battlefield with stronger ones.
         if (!enemies[4].alive)
-        {
-            ++zone;
-            h = enemies[4].max_health
-            for (let i = 0; i < 5; ++i)
-            {
-                h = Math.ceil(h * health_growth_ratio);
-                enemies[i].max_health = h;
-                enemies[i].health = h;
-                enemies[i].alive = true;
-            }
-            CheckProgressAchievement(zone);
-        }
+            GenerateNewZone();
     }
 }
 

@@ -74,4 +74,7 @@ function UpdateCurrencyUI()
     $('#luis1').prop('disabled', !CanAfford(makis, luises[1].cost, generator_cost_ratio));
     $('#luis2').prop('disabled', !CanAfford(makis, luises[2].cost, generator_cost_ratio));
     $('#luis3').prop('disabled', !CanAfford(makis, luises[3].cost, generator_cost_ratio));
+
+    // Update secondary currency.
+    UpdateRubiesUI();
 }

@@ -10,7 +10,8 @@ function SaveGame()
         current_next_attack_time: next_attack_time,
         current_zone: zone,
         current_achievements: achievements,
-        current_minions: minions
+        current_minions: minions,
+        current_rubies: rubies
     }
 
     localStorage.setItem("save", JSON.stringify(save_game))
@@ -37,6 +38,8 @@ function LoadGame()
         achievements = save_game.current_achievements;
     if (typeof save_game.current_minions !== "undefined")
         minions = save_game.current_minions;
+    if (typeof save_game.current_rubies !== "undefined")
+        rubies = save_game.current_rubies;
 }
 
 // Handle saving the state.
