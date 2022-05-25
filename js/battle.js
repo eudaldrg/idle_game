@@ -169,5 +169,7 @@ function UpdateBattleUI()
         enemy_string = '#enemy_' + (enemy_index + 1)
         $(enemy_string).text(FormatNumber(enemies[enemy_index].health) + " / " + FormatNumber(enemies[enemy_index].max_health));
         $(enemy_string).css('background-color', enemies[enemy_index].alive == true ? 'lightgreen' : '#ff6666');
+        if (enemies[enemy_index].rubies > 0)
+            AddRubyIcon($(enemy_string));
     }
 }
