@@ -4,14 +4,15 @@ function SaveGame()
 {
     var save_game = {
         current_makis: makis,
-        current_attack: attack,
+        current_attack: base_attack,
         current_luises: luises,
         current_enemies: enemies,
         current_next_attack_time: next_attack_time,
         current_zone: zone,
         current_achievements: achievements,
         current_minions: minions,
-        current_rubies: rubies
+        current_rubies: rubies,
+        current_upgrades: upgrades
     }
 
     localStorage.setItem("save", JSON.stringify(save_game))
@@ -25,7 +26,7 @@ function LoadGame()
     if (typeof save_game.current_makis !== "undefined")
         makis = save_game.current_makis;
     if (typeof save_game.current_attack !== "undefined")
-        attack = save_game.current_attack;
+        base_attack = save_game.current_attack;
     if (typeof save_game.current_luises !== "undefined")
         luises = save_game.current_luises;
     if (typeof save_game.current_enemies !== "undefined")
@@ -40,6 +41,8 @@ function LoadGame()
         minions = save_game.current_minions;
     if (typeof save_game.current_rubies !== "undefined")
         rubies = save_game.current_rubies;
+    if (typeof save_game.current_upgrades !== "undefined")
+        upgrades = save_game.current_upgrades;
 }
 
 // Handle saving the state.

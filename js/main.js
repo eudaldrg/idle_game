@@ -1,7 +1,7 @@
 // Basic variable declaration - keep track of how many of each
 // item we currently own, and how much the new ones should cost.
 var makis = 500;
-var attack = 0;
+var base_attack = 0;
 var last_update = Date.now()
 var hack_time_to_debug = 1;
 
@@ -21,7 +21,7 @@ $('#produce-widget').on('click', function () {
 });
 // Increase the attack of the player.
 $('#increase-attack').on('click', function () {
-    attack++;
+    base_attack++;
 });
 
 
@@ -54,19 +54,20 @@ function FormatNumber(number)
 
 function UpdateUI()
 {
-    // Update the text showing how many widgets we have, using Math.floor() to round down
+    // Update the text showing how many widgets we have, using Math.floor() to round down.
     $('#widget-count').text(FormatNumber(makis));
 
-    // Update the text showing the makis per second
+    // Update the text showing the makis per second.
     $('#widget-rate').text(FormatNumber(Math.floor(makis_per_second)));
 
-    // Update the text showing the attack per second
-    $('#dps').text(FormatNumber(Math.floor(attack)));
+    // Update the text showing the attack per second.
+    $('#dps').text(FormatNumber(Math.floor(base_attack)) + ' (' + FormatNumber(Math.floor(GetTotalAttack())) + ')');
 
     UpdateCurrencyUI();
     UpdateBuyingMultUI();
     UpdateBattleUI();
     UpdateAchievementUI();
+    UpdateUpgradesUI();
 }
 
 function MainLoop()

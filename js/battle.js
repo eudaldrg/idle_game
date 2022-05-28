@@ -104,7 +104,7 @@ function BuyMinion(minion_to_buy)
         minion_to_buy.quantity_purchased++;
         makis -= minion_to_buy.current_cost;
         minion_to_buy.current_cost = Math.ceil(minion_to_buy.current_cost * minions_cost_growth_ratio);
-        attack += minion_to_buy.attack_per_second;
+        base_attack += minion_to_buy.attack_per_second;
 
         ++quantity_bought;
     }
@@ -117,9 +117,23 @@ $('#buy_mega_minion').on('click', function () { BuyMinion(minions.mega_minion); 
 $('#buy_giga_minion').on('click', function () { BuyMinion(minions.giga_minion); });
 $('#buy_tera_minion').on('click', function () { BuyMinion(minions.tera_minion); });
 
+// Returns the total attack after applying modifiers.
+function GetTotalAttack()
+{
+    var total_attack = base_attack;
+    for (let key in upgrades)
+    {
+        upgrade = upgrades[key]
+        if (upgrade.purchased)
+            total_attack *= upgrade.attack_multiplier;
+    }
+    return total_attack;
+}
+
 // Main function to update the battlefield.
 function UpdateBattle(new_update_time)
 {
+    var total_attack = GetTotalAttack();
     if (new_update_time >= next_attack_time)
     {
         next_attack_time += 1000; // We add one second.
@@ -130,7 +144,7 @@ function UpdateBattle(new_update_time)
             // Attack the first alive enemy.
             if (enemies[i].alive == true)
             {
-                enemies[i].health = Math.max(0, enemies[i].health - attack);
+                enemies[i].health = Math.max(0, enemies[i].health - total_attack);
                 if (enemies[i].health <= 0)
                 {
                     enemies[i].alive = false;
