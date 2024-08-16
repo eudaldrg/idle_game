@@ -13,11 +13,18 @@
 <body>
     <div id="AchievementTab" style="display: none;">
         <h1>Achievements</h1> 
-        <button id="BackFromAchievementsTab">Back to main window</button>
+        <button id="MainTabFromAchButton">Back to main window</button>
         <div class="AchievementGrid" id="AchievementList">
             <div class="AchievementBox" id="10BattleZoneAchievement">10BZ</div>
             <div class="AchievementBox" id="50BattleZoneAchievement">50BZ</div>
             <div class="AchievementBox" id="100BattleZoneAchievement">100BZ</div>
+        </div>
+    </div>
+    <div id="TowerDefenseTab" style="display: none;">
+        <h1>Survival Game</h1> 
+        <button id="MainTabFromTDButton">Back to main window</button>
+        <h3>Makis: <span id="widget-count-td">0</span></h3>
+        <div class="TDMap" id="TDMap">
         </div>
     </div>
     <div id="MainTab">
@@ -37,6 +44,7 @@
         <h2>Tabs:</h2>
         <div class="Tab buttons:">
             <button id="GoToAchievementsButton">Achievements</button>
+            <button id="GoToTowerDefenseButton">TowerDefense</button>
         </div>
     
         <h2>Settings:</h2>
@@ -96,6 +104,13 @@
                 <div class="enemy_box" id="enemy_4">10</div>
                 <div class="enemy_box" id="enemy_5">10</div>
             </div>
+            <div class="enemy_row" id="enemy_row2">
+                <div class="enemy_box" id="enemy_10">10</div>
+                <div class="enemy_box" id="enemy_20">10</div>
+                <div class="enemy_box" id="enemy_30">10</div>
+                <div class="enemy_box" id="enemy_40">10</div>
+                <div class="enemy_box" id="enemy_50">10</div>
+            </div>
         </div>
     
         <!--h2>Coding exercises:</h2>
@@ -121,5 +136,6 @@
 <script src="js/game_state.js"></script>
 <script src="js/main_currency.js"></script>
 <script src="js/main.js"></script>
+<script src="js/tower_defense.js"></script>
 <script src="js/upgrades.js"></script>
 </html>

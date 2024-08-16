@@ -19,23 +19,34 @@ $('#number_formatting').on('change', function() {
 $('#produce-widget').on('click', function () {
     makis++;
 });
-// Increase the attack of the player.
-$('#increase-attack').on('click', function () {
-    base_attack++;
-});
 
 
 // Tab buttons:
-function ToggleAchievementWindows(achievements_open)
+function SwitchTab(tab_to_open)
 {
-    $('#MainTab').css('display', achievements_open ? 'none' : 'block');
-    $('#AchievementTab').css('display', achievements_open ? 'block' : 'none');
+    $('#MainTab').css('display', tab_to_open == 0 ? 'block' : 'none');
+    $('#AchievementTab').css('display', tab_to_open == 1 ? 'block' : 'none');
+    $('#TowerDefenseTab').css('display', tab_to_open == 2 ? 'block' : 'none');
 }
 
-$('#GoToAchievementsButton').on('click', function () { ToggleAchievementWindows(/* achievements_open */ true); });
-$('#BackFromAchievementsTab').on('click', function () { ToggleAchievementWindows(/* achievements_open */ false); });
+$('#MainTabFromAchButton').on('click', function () { SwitchTab(/* tab_to_open */ 0); });
+$('#MainTabFromTDButton').on('click', function () { SwitchTab(/* tab_to_open */ 0); });
+$('#GoToAchievementsButton').on('click', function () { SwitchTab(/* tab_to_open */ 1); });
+$('#GoToTowerDefenseButton').on('click', function () { SwitchTab(/* tab_to_open */ 2); });
 
 
+
+// Keyboard handling.
+document.onkeydown=function(key){ reactKey(key); }
+
+function reactKey(event)
+{
+    if ($('#TowerDefenseTab').css('display') === 'block')
+        TowerDefenseReactToKey(event);
+}
+
+
+// Numeric formatting.
 class FormatMode {
     static Standard = new FormatMode("standard")
     static Scientific = new FormatMode("scientific")
@@ -52,10 +63,13 @@ function FormatNumber(number)
     return numberformat.formatShort(number, {format: format_mode.name})
 }
 
+
+// UI.
 function UpdateUI()
 {
     // Update the text showing how many widgets we have, using Math.floor() to round down.
     $('#widget-count').text(FormatNumber(makis));
+    $('#widget-count-td').text(FormatNumber(makis));
 
     // Update the text showing the makis per second.
     $('#widget-rate').text(FormatNumber(Math.floor(makis_per_second)));
@@ -67,6 +81,7 @@ function UpdateUI()
     UpdateBuyingMultUI();
     UpdateBattleUI();
     UpdateAchievementUI();
+    UpdateTowerDefenseUI();
     UpdateUpgradesUI();
 }
 

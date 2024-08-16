@@ -38,3 +38,20 @@
     border-style: solid;
     background-color: lightgray;
 }
+
+.map_row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    background-color: gray;
+    padding: 0px;
+    gap: 0px;
+}
+
+.map_cell {
+    width: 100%;
+    text-align: center;
+    border-style: solid;
+    border-color: black;
+    border-width: 2px;
+    background-color: lightgray;
+}
